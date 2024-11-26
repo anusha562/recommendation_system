@@ -1,0 +1,14 @@
+.movie-container {
+    padding: 10px; /* Adjust to control spacing */
+    text-align: center;
+}
+
+.movie-title {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+img {
+    width: 150px;
+    border-radius: 8px;
+}

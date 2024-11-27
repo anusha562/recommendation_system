@@ -3,8 +3,8 @@ from scipy.sparse import csr_matrix
 import pandas as pd
 
 # Load your movie features (Make sure the dataset includes movie titles and IDs)
-movie_features_read = pd.read_csv('./dataset/movie_features.csv',index_col=0)
-movie_data = pd.read_csv('./dataset/movies_metadata.csv')  # Assuming this contains 'id' and 'title'
+movie_features_read = pd.read_csv('./dataset_pkl/movie_features.csv',index_col=0)
+movie_data = pd.read_csv('./dataset_pkl/movies_metadata.csv')  # Assuming this contains 'id' and 'title'
 
 def recommend_movies(movie_name, n_recommendations=5):
     """

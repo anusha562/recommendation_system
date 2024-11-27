@@ -2,8 +2,8 @@ import pandas as pd
 import joblib
 
 
-similarity_cosine = joblib.load(open("model pkl/cosine_similarity.pkl", 'rb'))
-movie_data = pd.read_csv('./dataset/preprocessed_data_content_based.csv')
+similarity_cosine = joblib.load(open("dataset_pkl/cosine_similarity.pkl", 'rb'))
+movie_data = pd.read_csv('./dataset_pkl/preprocessed_data_content_based.csv')
 print(movie_data.shape)
 
 def content_based_recommendation(movie_title):

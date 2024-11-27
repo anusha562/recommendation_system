@@ -6,9 +6,9 @@ import torch
 
 model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
 
-movie_embeddings = pd.read_csv('/Users/anushaanandhan/Downloads/CineCraft/dataset/movie_embeddings.csv')
+movie_embeddings = pd.read_csv('/Users/anushaanandhan/Downloads/CineCraft/dataset_pkl/movie_embeddings.csv')
 
-movies = pd.read_csv('/Users/anushaanandhan/Downloads/CineCraft/dataset/movies_llm.csv')
+movies = pd.read_csv('/Users/anushaanandhan/Downloads/CineCraft/dataset_pkl/movies_llm.csv')
 
 # Convert to tensor for faster computation
 movie_embeddings_tensor = torch.tensor(movie_embeddings.values)

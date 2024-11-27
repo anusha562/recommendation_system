@@ -87,7 +87,7 @@ local_css("./style/style.css")  # Call this function to load the CSS file
 
 # Streamlit app setup
 st.header("CineCraft - A Personalized Movie Recommendation System")
-movie_data = pd.read_csv('./dataset/movies_metadata.csv')
+movie_data = pd.read_csv('./dataset_pkl/movies_metadata.csv')
 movie_list = movie_data['title'].values
 
 # Select a movie

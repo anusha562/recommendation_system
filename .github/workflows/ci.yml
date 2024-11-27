@@ -21,6 +21,6 @@ jobs:
       
       
     - name: Build the Docker image
-      run: docker build -t recommendation_system-cicd-pipeline .
+      run: docker build -t recommendation_system-cicd-pipeline:latest .
     - name: Push to Dockerhub
       run: docker push anusha562/recommendation_system-cicd-pipeline:latest

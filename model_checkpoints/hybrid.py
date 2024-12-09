@@ -9,16 +9,13 @@ def hybrid_recommendation(movie_title):
     # Get collaborative-based recommendations
     collab_ids, collab_titles = recommend_movies(movie_title)
 
-    # If collaborative recommendations are found, combine them
     if collab_ids:
         combined_titles = content_titles + collab_titles
         combined_ids = content_ids + collab_ids
     else:
-        # If collaborative recommendations are not found, just return content-based recommendations
         combined_titles = content_titles
         combined_ids = content_ids
 
-    # Return combined results
     return combined_ids, combined_titles
 
 

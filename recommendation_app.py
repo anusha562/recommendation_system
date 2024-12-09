@@ -217,7 +217,6 @@ with st.sidebar:
                 }
             }
         )
-
 # Load Movie Data
 movie_data = load_data_from_s3(target_bucket,s3_file_path)
 movie_list = movie_data['title'].values
@@ -225,21 +224,31 @@ movie_list = movie_data['title'].values
 # Homepage
 if selected == "Homepage 🏠":
     st.markdown('<h1 class="homepage-header">Welcome to CineCraft!</h1>', unsafe_allow_html=True)
-    file_ = open("./style/home.gif", "rb")
-    contents = file_.read()
-    data_url = base64.b64encode(contents).decode("utf-8")
-    file_.close()
+    
+    # Open and encode the GIF file
+    with open("./style/home.gif", "rb") as file_:
+        contents = file_.read()
+        data_url = base64.b64encode(contents).decode("utf-8")
 
+    # Display the subheader
     st.markdown('<h2 class="homepage-subheader">Your Personalized Movie Recommendation System</h2>', unsafe_allow_html=True)
-    st.markdown('<ul class="homepage-features">'
-                '<li>Get recommendations using hybrid algorithms.</li>'
-                '<li>Ask questions and get recommendations powered by LLM.</li>'
-                '<li>View reviews and sentiments for movies.</li>'
-                '</ul>',
-                f'''<img src="data:image/gif;base64,{data_url}" alt="home gif" style="width: 250px; height: auto; float: right; margin-right: 15px;">
-                ''',unsafe_allow_html=True
-            )
+    
+    # Display the list and image separately
+    st.markdown(
+        '<ul class="homepage-features">'
+        '<li>Get recommendations using hybrid algorithms.</li>'
+        '<li>Ask questions and get recommendations powered by LLM.</li>'
+        '<li>View reviews and sentiments for movies.</li>'
+        '</ul>',
+        unsafe_allow_html=True
+    )
+    
+    st.markdown(
+        f'<img src="data:image/gif;base64,{data_url}" alt="home gif" style="width: 250px; height: auto; float: right; margin-right: 15px;">',
+        unsafe_allow_html=True
+    )
 
+    
 # Hybrid Recommendation
 elif selected == "Get Recommendations 🎬":
     st.markdown('<h2 class="recommendation-header">Hybrid Recommendation System 🎬</h2>', unsafe_allow_html=True)
@@ -326,55 +335,21 @@ elif selected == "LLM Query Search 💬":
                         st.image(poster_url, use_container_width=True, caption=movie_title)
 # Trending Today
 elif selected == "Trending Movies 🔥":
-    # st.title("🎥 Welcome to Trending Movies and Shows")
-    # st.markdown("Millions of movies, TV shows, and people to discover. Explore now.")
+    st.title("🎥 Welcome to Trending Movies and Shows")
+    st.markdown("Millions of movies, TV shows, and people to discover. Explore now.")
 
-    # st.subheader("🔥 Trending Today")
-    # trending_today = fetch_trending(media_type="movie", time_window="day")
+    st.subheader("🔥 Trending Today")
+    trending_today = fetch_trending(media_type="movie", time_window="day")
 
-    # cols = st.columns(5)
-    # for idx, movie in enumerate(trending_today[:5]):
-    #     with cols[idx]:
-    #         poster_path = movie.get("poster_path", "")
-    #         title = movie.get("title", "Unknown")
-    #         trailer_url = fetch_trailer(movie.get("id"))
+    cols = st.columns(5)
+    for idx, movie in enumerate(trending_today[:5]):
+        with cols[idx]:
+            poster_path = movie.get("poster_path", "")
+            title = movie.get("title", "Unknown")
+            trailer_url = fetch_trailer(movie.get("id"))
             
-    #         if poster_path:
-    #             st.image(f"https://image.tmdb.org/t/p/w500{poster_path}", use_container_width=True)
-    #         st.markdown(f"**{title}**")
-    #         if trailer_url:
-    #             st.markdown(f'[🎬 Watch Trailer]({trailer_url})', unsafe_allow_html=True)
-
-
-    # Fetch trending movies for specific regions/languages
-    st.title("🎥 Welcome to Trending Movies by Language")
-    st.markdown("Discover trending movies across various languages and regions.")
-
-    languages = {
-    "Hindi (India)": "IN",
-    "English (USA)": "US",
-    "Spanish (Spain)": "ES",
-    "French (France)": "FR",
-    "Telugu (India)": "IN",
-    }
-
-    for lang, language_code in languages.items():
-        st.subheader(f"🔥 Trending Movies in {lang}")
-        trending_movies = fetch_trending_by_language(media_type="movie", time_window="day", original_language=language_code)
-
-        if not trending_movies:
-            st.markdown("No trending movies found.")
-            continue
-
-        cols = st.columns(5)
-        for idx, movie in enumerate(trending_movies[:5]):
-            with cols[idx]:
-                poster_path = movie.get("poster_path", "")
-                title = movie.get("title", "Unknown")
-                trailer_url = fetch_trailer(movie.get("id"))
-                
-                if poster_path:
-                    st.image(f"https://image.tmdb.org/t/p/w500{poster_path}", use_container_width=True)
-                st.markdown(f"**{title}**")
-                if trailer_url:
-                    st.markdown(f'[🎬 Watch Trailer]({trailer_url})', unsafe_allow_html=True)
+            if poster_path:
+                st.image(f"https://image.tmdb.org/t/p/w500{poster_path}", use_container_width=True)
+            st.markdown(f"**{title}**")
+            if trailer_url:
+                st.markdown(f'[🎬 Watch Trailer]({trailer_url})', unsafe_allow_html=True)    

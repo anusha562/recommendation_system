@@ -223,6 +223,7 @@ movie_list = movie_data['title'].values
 
 # Homepage
 if selected == "Homepage 🏠":
+    set_background("./style/bgi.jpg", target="app")
     st.markdown('<h1 class="homepage-header">Welcome to CineCraft!</h1>', unsafe_allow_html=True)
     
     # Open and encode the GIF file

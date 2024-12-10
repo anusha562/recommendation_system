@@ -1,13 +1,12 @@
 name: CD Pipeline for Recommendation system
 
 on:
-    workflow_run:
-      workflows: ["CI Pipeline for Recommendation system"]
-      types:
-        - completed
+  workflow_run:
+    workflows: ["CI Pipeline for Recommendation system"]
+    types:
+      - completed
 
 jobs:
-
   build:
     runs-on: self-hosted
 

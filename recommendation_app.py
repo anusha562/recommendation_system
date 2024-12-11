@@ -338,13 +338,13 @@ elif selected == "LLM Query Search 💬":
 elif selected == "Trending Movies 🔥":
     st.title("🎥 Welcome to Trending Movies and Shows")
     st.markdown("Millions of movies, TV shows, and people to discover. Explore now.")
-
     st.subheader("🔥 Trending Today")
     trending_today = fetch_trending(media_type="movie", time_window="day")
 
-    cols = st.columns(5)
+    # Create the first row with 5 columns
+    cols1 = st.columns(5)
     for idx, movie in enumerate(trending_today[:5]):
-        with cols[idx]:
+        with cols1[idx]:
             poster_path = movie.get("poster_path", "")
             title = movie.get("title", "Unknown")
             trailer_url = fetch_trailer(movie.get("id"))
@@ -353,4 +353,18 @@ elif selected == "Trending Movies 🔥":
                 st.image(f"https://image.tmdb.org/t/p/w500{poster_path}", use_container_width=True)
             st.markdown(f"**{title}**")
             if trailer_url:
-                st.markdown(f'[🎬 Watch Trailer]({trailer_url})', unsafe_allow_html=True)    
+                st.markdown(f'[🎬 Watch Trailer]({trailer_url})', unsafe_allow_html=True)
+
+    # Create the second row with the next 5 columns
+    cols2 = st.columns(5)
+    for idx, movie in enumerate(trending_today[5:10]):
+        with cols2[idx]:
+            poster_path = movie.get("poster_path", "")
+            title = movie.get("title", "Unknown")
+            trailer_url = fetch_trailer(movie.get("id"))
+            
+            if poster_path:
+                st.image(f"https://image.tmdb.org/t/p/w500{poster_path}", use_container_width=True)
+            st.markdown(f"**{title}**")
+            if trailer_url:
+                st.markdown(f'[🎬 Watch Trailer]({trailer_url})', unsafe_allow_html=True)

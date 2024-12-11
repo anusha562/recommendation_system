@@ -1,0 +1,6 @@
+outs:
+- md5: 22df4782e4902364b2d866fbd6c9ae7f.dir
+  size: 4502369244
+  nfiles: 11
+  hash: md5
+  path: dataset_pkl

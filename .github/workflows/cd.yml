@@ -7,7 +7,7 @@ on:
       - completed
 
 jobs:
-  build:
+  deploy:
     runs-on: self-hosted
 
     steps:
@@ -20,7 +20,7 @@ jobs:
     - name: Delete Old Docker Container
       run: sudo docker rm -f cicd-pipeline-container || true
 
-    - name: Run Docker Container
+    - name: Run Docker Container with AWS Credentials
       run: |
         sudo docker run -d -p 8501:8501 \
         -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
@@ -32,3 +32,10 @@ jobs:
       run: |
         sleep 10  # Wait for the app to start
         curl -f http://localhost:8501 || (echo "Application failed to start" && exit 1)
+
+    - name: DVC Pull S3 Data
+      run: |
+        docker exec -i cicd-pipeline-container sh -c "
+        dvc remote add -d myremote s3://dvc-recommendation-files &&
+        dvc pull
+        "

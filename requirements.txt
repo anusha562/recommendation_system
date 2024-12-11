@@ -27,3 +27,5 @@ faiss-cpu==1.9.0.post1
 seaborn==0.13.2
 matplotlib==3.9.2
 streamlit_option_menu==0.3.13
+dvc==3.57.0
+dvc-s3==3.2.0

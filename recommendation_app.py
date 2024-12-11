@@ -1,13 +1,16 @@
 import streamlit as st
 import pandas as pd
 import requests
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
+from nltk.sentiment import SentimentIntensityAnalyzer
 from model_checkpoints.hybrid import hybrid_recommendation
 from model_checkpoints.llm import get_llm_based_recommendations
 import base64
 from streamlit_option_menu import option_menu
 from streamlit_extras.let_it_rain import rain
 # from model_checkpoints.s3 import load_data_from_s3
+
+import nltk
+nltk.download('vader_lexicon')
 
 # Load custom CSS file
 with open('./style/style.css') as f:

@@ -2,5 +2,3 @@
     remote = myremote2
 ['remote "myremote"']
     url = s3://dvc-recommendation-files/
-['remote "myremote2"']
-    url = s3://dvc-recommendation-files/

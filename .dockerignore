@@ -1,0 +1,54 @@
+_pycache_/
+*.pyc
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+dist/
+build/
+*.whl
+
+# DVC-related files
+.dvc/
+*.dvc
+.dvcignore
+
+# Virtual environments
+venv/
+.env/
+*.env
+
+# Model checkpoints and large model files
+*.ckpt
+*.pth
+*.pt
+*.onnx
+*.h5
+*.tflite
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*~
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+*.orig
+*.patch
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Git-related files
+.git/
+.gitignore
+.gitmodules
+.svn/
+
+# Docker-related files
+docker-compose.override.yml

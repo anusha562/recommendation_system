@@ -36,6 +36,5 @@ jobs:
     - name: DVC Pull S3 Data
       run: |
         docker exec -i cicd-pipeline-container sh -c "
-        dvc remote add -d myremote s3://dvc-recommendation-files &&
         dvc pull
         "

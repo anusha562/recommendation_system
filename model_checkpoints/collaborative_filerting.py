@@ -1,11 +1,16 @@
 from sklearn.neighbors import NearestNeighbors
 from scipy.sparse import csr_matrix
-from model_checkpoints.s3 import load_data_from_s3
+import pandas as pd
+# from model_checkpoints.s3 import load_data_from_s3
 
 target_bucket = "recommendation-system-anusha"
 
-movie_features_read = load_data_from_s3(target_bucket, "movie_features.csv",index_col=0)
-movie_data =load_data_from_s3(target_bucket,'movies_metadata.csv')
+# movie_features_read = load_data_from_s3(target_bucket, "movie_features.csv",index_col=0)
+# movie_data =load_data_from_s3(target_bucket,'movies_metadata.csv')
+
+movie_features_read = pd.read_csv('./dataset_pkl/movie_features.csv',index_col=0)
+movie_data = pd.read_csv('./dataset_pkl/movies_metadata.csv')  # Assuming this contains 'id' and 'title'
+
 
 def recommend_movies(movie_name, n_recommendations=5):
     """

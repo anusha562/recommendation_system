@@ -7,7 +7,7 @@ from model_checkpoints.llm import get_llm_based_recommendations
 import base64
 from streamlit_option_menu import option_menu
 from streamlit_extras.let_it_rain import rain
-from model_checkpoints.s3 import load_data_from_s3
+# from model_checkpoints.s3 import load_data_from_s3
 
 # Load custom CSS file
 with open('./style/style.css') as f:
@@ -218,7 +218,8 @@ with st.sidebar:
             }
         )
 # Load Movie Data
-movie_data = load_data_from_s3(target_bucket,s3_file_path)
+# movie_data = load_data_from_s3(target_bucket,s3_file_path)
+movie_data = pd.read_csv('./dataset_pkl/movies_metadata.csv', low_memory=False)
 movie_list = movie_data['title'].values
 
 # Homepage

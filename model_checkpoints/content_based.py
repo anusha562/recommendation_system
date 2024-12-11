@@ -1,9 +1,15 @@
-from model_checkpoints.s3 import load_data_from_s3
+import pandas as pd
+import joblib
 
-target_bucket = "recommendation-system-anusha"
+similarity_cosine = joblib.load(open("./dataset_pkl/cosine_similarity.pkl", 'rb'))
+movie_data = pd.read_csv('./dataset_pkl/preprocessed_data_content_based.csv')
 
-similarity_cosine = load_data_from_s3(target_bucket,"cosine_similarity.pkl" )
-movie_data = load_data_from_s3(target_bucket,"preprocessed_data_content_based.csv")
+# from model_checkpoints.s3 import load_data_from_s3
+
+# target_bucket = "recommendation-system-anusha"
+
+# similarity_cosine = load_data_from_s3(target_bucket,"cosine_similarity.pkl" )
+# movie_data = load_data_from_s3(target_bucket,"preprocessed_data_content_based.csv")
 
 def content_based_recommendation(movie_title):
 

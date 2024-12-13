@@ -61,13 +61,8 @@ def set_background(image_path_or_url, target="app"):
     
     st.markdown(background_style, unsafe_allow_html=True)
 
-
-s3_file_path = "movies_metadata.csv"
 TMDB_API_KEY = "2800d0e6c92ffc562ded93351b86ead3"
-
-
 sid = SentimentIntensityAnalyzer()
-
 
 def fetch_poster(movie_id):
     url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key=2800d0e6c92ffc562ded93351b86ead3&language=en-US"
@@ -263,64 +258,71 @@ elif selected == "Get Recommendations 🎬":
     selected_movie = st.selectbox("Select a movie:", movie_list)
 
     if st.button('Show Recommendations'):
-        movie_ids, recommended_titles = hybrid_recommendation(selected_movie)
+        try:
+            movie_ids, recommended_titles = hybrid_recommendation(selected_movie)
 
-        recommended_movies = []
-        for movie_id, movie_title in zip(movie_ids, recommended_titles):
-            poster_url = fetch_poster(movie_id)
-            genre, duration, tmdb_score = fetch_movie_details(movie_id)
-            reviews = fetch_reviews(movie_id)
+            recommended_movies = []
+            for movie_id, movie_title in zip(movie_ids, recommended_titles):
+                poster_url = fetch_poster(movie_id)
+                genre, duration, tmdb_score = fetch_movie_details(movie_id)
+                reviews = fetch_reviews(movie_id)
 
-            review_data = []
-            for review in reviews[:3]:
-                sentiment = analyze_sentiment_vader(review["content"])
-                review_data.append({
-                    "Review": review["content"][:300] + '...',
-                    "Sentiment": sentiment,
-                    "URL": review["url"]
+                review_data = []
+                for review in reviews[:3]:
+                    sentiment = analyze_sentiment_vader(review["content"])
+                    review_data.append({
+                        "Review": review["content"][:300] + '...',
+                        "Sentiment": sentiment,
+                        "URL": review["url"]
+                    })
+
+                recommended_movies.append({
+                    "Movie": movie_title,
+                    "Poster": poster_url,
+                    "Genre": genre,
+                    "Duration": duration,
+                    "TMDB Score": tmdb_score,
+                    "Reviews": review_data
                 })
+            st.markdown('<h2 class="recommendation-header">Recommended Movies</h2>', unsafe_allow_html=True)
+            # rain(
+            #     emoji="🍿",
+            #     font_size=54,
+            #     falling_speed=2,
+            #     animation_length= 0.3
+            # )
+            
+            for i in range(0, len(recommended_movies), 5):
+                cols = st.columns(5)
+                for idx, movie in enumerate(recommended_movies[i:i+5]):
+                    with cols[idx]:
+                        st.image(movie["Poster"], width=150)
+                        st.markdown(f'<p class="movie-title">{movie["Movie"]}</p>', unsafe_allow_html=True)
+                        st.markdown(f'<p class="genre-info">Genre: {movie["Genre"]}</p>', unsafe_allow_html=True)
+                        st.markdown(f'<p class="genre-info">Duration: {movie["Duration"]} mins</p>', unsafe_allow_html=True)
+                        st.markdown(f'<p class="genre-info">TMDB Score: {movie["TMDB Score"]}</p>', unsafe_allow_html=True)
 
-            recommended_movies.append({
-                "Movie": movie_title,
-                "Poster": poster_url,
-                "Genre": genre,
-                "Duration": duration,
-                "TMDB Score": tmdb_score,
-                "Reviews": review_data
-            })
-        st.markdown('<h2 class="recommendation-header">Recommended Movies</h2>', unsafe_allow_html=True)
-        rain(
-            emoji="🍿",
-            font_size=54,
-            falling_speed=2,
-            animation_length= 0.3
-        )
+            movie_reviews = []
+
+            for movie in recommended_movies:
+                for review in movie["Reviews"]:
+                    movie_reviews.append({
+                        "Movie": movie["Movie"],
+                        "Review": review["Review"],
+                        "Sentiment": review["Sentiment"]
+                    })
+
+            movie_reviews_df = pd.DataFrame(movie_reviews)
+
+            st.markdown('<div class="table-container">', unsafe_allow_html=True)
+            st.dataframe(movie_reviews_df, use_container_width=True, hide_index=True)
+            st.markdown('</div>', unsafe_allow_html=True)
+
+        except ValueError as e:
+            st.error(f"{e}")
         
-        for i in range(0, len(recommended_movies), 5):
-            cols = st.columns(5)
-            for idx, movie in enumerate(recommended_movies[i:i+5]):
-                with cols[idx]:
-                    st.image(movie["Poster"], width=150)
-                    st.markdown(f'<p class="movie-title">{movie["Movie"]}</p>', unsafe_allow_html=True)
-                    st.markdown(f'<p class="genre-info">Genre: {movie["Genre"]}</p>', unsafe_allow_html=True)
-                    st.markdown(f'<p class="genre-info">Duration: {movie["Duration"]} mins</p>', unsafe_allow_html=True)
-                    st.markdown(f'<p class="genre-info">TMDB Score: {movie["TMDB Score"]}</p>', unsafe_allow_html=True)
-
-        movie_reviews = []
-
-        for movie in recommended_movies:
-            for review in movie["Reviews"]:
-                movie_reviews.append({
-                    "Movie": movie["Movie"],
-                    "Review": review["Review"],
-                    "Sentiment": review["Sentiment"]
-                })
-
-        movie_reviews_df = pd.DataFrame(movie_reviews)
-
-        st.markdown('<div class="table-container">', unsafe_allow_html=True)
-        st.dataframe(movie_reviews_df, use_container_width=True, hide_index=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+        except Exception as e:
+            st.error("An error occurred while generating recommendations. Please try again.")
 
 # LLM Recommendation
 elif selected == "LLM Query Search 💬":

@@ -5,7 +5,6 @@ from model_checkpoints.collaborative_filerting import recommend_movies
 def hybrid_recommendation(movie_title):
     # Get content-based recommendations
     content_ids, content_titles = content_based_recommendation(movie_title.lower())
-
     # Get collaborative-based recommendations
     collab_ids, collab_titles = recommend_movies(movie_title)
 

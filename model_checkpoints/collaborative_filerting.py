@@ -1,16 +1,9 @@
 from sklearn.neighbors import NearestNeighbors
 from scipy.sparse import csr_matrix
 import pandas as pd
-# from model_checkpoints.s3 import load_data_from_s3
-
-target_bucket = "recommendation-system-anusha"
-
-# movie_features_read = load_data_from_s3(target_bucket, "movie_features.csv",index_col=0)
-# movie_data =load_data_from_s3(target_bucket,'movies_metadata.csv')
 
 movie_features_read = pd.read_csv('./dataset_pkl/movie_features.csv',index_col=0)
-movie_data = pd.read_csv('./dataset_pkl/movies_metadata.csv')  # Assuming this contains 'id' and 'title'
-
+movie_data = pd.read_csv('./dataset_pkl/movies_metadata.csv')
 
 def recommend_movies(movie_name, n_recommendations=5):
     """
@@ -44,7 +37,7 @@ def recommend_movies(movie_name, n_recommendations=5):
     movie_ids = []
     for i in range(1, len(distances.flatten())):
         similar_movie_title = movie_features_read.index[indices.flatten()[i]]
-        similar_movie_id = movie_data[movie_data['title'] == similar_movie_title]['id'].values[0]  # Get movie ID from movie_data
+        similar_movie_id = movie_data[movie_data['title'] == similar_movie_title]['id'].values[0]
         movie_titles.append(similar_movie_title)
         movie_ids.append(similar_movie_id)
 
